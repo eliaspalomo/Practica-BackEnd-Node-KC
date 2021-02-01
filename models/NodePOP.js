@@ -4,13 +4,13 @@ const mongoose = require('mongoose');
 
 //definimos un esquema
 const nodePOPSchema = mongoose.Schema({
-    articulo: {type: String, index: true},
-    venta: {type: Boolean, index: true},
-    precio:  {type: Number, index: true},
-    foto: {type: String},
-    tags: [String]
+        articulo: {type: String, index: true},
+        venta: {type: Boolean, index: true},
+        precio:  {type: Number, index: true},
+        foto: {type: String},
+        tags: [String]
     }, {
-    collection: 'nodePOPs'
+        collection: 'nodePOPs'
 });
 
 

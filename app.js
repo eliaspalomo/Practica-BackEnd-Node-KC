@@ -27,6 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
  * Rutas del API
  */
 app.use('/api/nodepop', require('./routes/api/nodepop'));
+app.use('/api/tag', require('./routes/api/tag'));
 
 app.use('/',      require('./routes/index'));
 app.use('/users', require('./routes/users'));

@@ -6,8 +6,11 @@ const NodePOP = require('../../models/NodePOP');
 /* GET /api/nodePOP */
 router.get('/', async function(req, res, next) {
     try {
-//        const name = req.query.name;
-//        const age = req.query.age;
+        const articulo = req.query.articulo;
+        const venta = req.query.venta;
+        const precio = req.query.precio;
+        const tags = req.query.tags;
+        
         const limit = parseInt(req.query.limit);
         const skip = parseInt(req.query.skip);
         const fields = req.query.fields;
@@ -15,13 +18,21 @@ router.get('/', async function(req, res, next) {
 
         const filtro = {};
 
-//        if(name) {
-//            filtro.name = name
-//        }
+        if(articulo) {
+            filtro.articulo = articulo
+        }
 
-//        if (age) {
-//            filtro.age = age
-//        }
+        if (venta) {
+            filtro.venta = venta
+        }
+
+        if(precio) {
+            filtro.precio = precio
+        }
+
+        if (tags) {
+            filtro.tags = tags
+        }
 
         const resultado = await NodePOP.lista(filtro, limit, skip, fields, sort);
         res.json(resultado);

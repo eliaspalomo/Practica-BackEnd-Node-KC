@@ -11,9 +11,10 @@ mongoose.connection.once('open', () => {
     console.log('Conectando a MongoDB en', mongoose.connection.name);
 });
 
-mongoose.connect('mongodb://localhost/cursonode', {
+mongoose.connect('mongodb://localhost/PracticaEPV', {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useCreateIndex: true
 });
 
 module.exports = mongoose.connection;
