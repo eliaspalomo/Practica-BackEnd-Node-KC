@@ -8,13 +8,10 @@ var app = express();
 
 require('./lbi/connectMongoose');
 
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'html');
+app.set('view engine', 'ejs');
 app.engine('html', require('ejs').__express);
-
-app.locals.title = 'NodePOP';
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -30,7 +27,6 @@ app.use('/api/nodepop', require('./routes/api/nodepop'));
 app.use('/api/tag', require('./routes/api/tag'));
 
 app.use('/',      require('./routes/index'));
-app.use('/users', require('./routes/users'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
