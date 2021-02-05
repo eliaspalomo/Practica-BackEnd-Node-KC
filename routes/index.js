@@ -12,8 +12,13 @@ router.get('/', async function(req, res, next) {
     const precio = req.query.precio;
     const tags = req.query.tags;
     
-    const limit = parseInt(req.query.limit);
-    const skip = parseInt(req.query.skip);
+    let limit;
+    if (req.query.limit) {limit = parseInt(req.query.limit)}
+    let skip;
+    if (req.query.skip) {
+        const pos = req.query.skip.indexOf('-');
+        skip = parseInt(req.query.skip.substring(0, pos)) -1;
+    };
     const fields = req.query.fields;
     const sort = req.query.sort;
 
@@ -28,9 +33,28 @@ router.get('/', async function(req, res, next) {
     } else if (venta==="C") {
         filtro.venta = false
     }
-
+    
     if(precio) {
-        filtro.precio = precio
+        const pos = precio.indexOf('-');
+        console.log(pos);
+        console.log(precio);
+        if(pos!==-1) {
+            if(pos===0){
+                //menor
+                filtro.precio = {'$lte':precio.substring(1,precio.length)}
+            } else if(pos===(precio.length -1)){
+                //mayor
+                filtro.precio = {'$gte':precio.substring(0,precio.length -1)}
+            } else {
+                //entre dos valores
+                const precioInf = precio.substring(0, pos);
+                const precioSup = precio.substring(pos +1, precio.length);
+                filtro.precio = {'$gte':precioInf, '$lte': precioSup}
+            }
+
+        } else {
+            filtro.precio = precio
+        }
     }
 
     if (tags) {
@@ -38,8 +62,12 @@ router.get('/', async function(req, res, next) {
     }
 
     const nodePOPs = await nodePOP.lista(filtro, limit, skip, fields, sort);
+    const total = await nodePOP.listaCount(filtro);
+
+    if (!limit) {limit=total}
+    
     const tagsmodel = await tag.find();
-    res.render('index', {title: 'NodePOP', nodePOPs: nodePOPs, tags: tagsmodel});
+    res.render('index', {title: 'NodePOP', nodePOPs: nodePOPs, tags: tagsmodel, total: total, limit: limit});
       
   } catch (err) {
       next(err);

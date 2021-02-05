@@ -23,6 +23,11 @@ nodePOPSchema.statics.lista = function(filtro, limit, skip, fields, sort) {
     return query.exec();
 }
 
+nodePOPSchema.statics.listaCount = function(filtro) {
+    const query = NodePOP.find(filtro).count();
+    return query.exec();
+}
+
 //creamos el modelo con el esquema definido
 const NodePOP = mongoose.model('NodePOP', nodePOPSchema);
 
