@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "db": "node ./installColections.js",
+    "installDB": "node ./installColections.js",
     "dev": "cross-env PORT=3000 DEBUG=practica-backend-node-kc:* NODE_ENV=development nodemon",
     "prod": "cross-env PORT=3000 DEBUG=practica-backend-node-kc:*"
   },

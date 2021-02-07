@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
-const nodePOP = require('../models/NodePOP');
-const tag = require('../models/Tag');
+const NodePOP = require('../models/NodePOP');
+const Tag = require('../models/Tag');
 
 /* GET home page. */
 router.get('/', async function(req, res, next) {
@@ -61,12 +61,12 @@ router.get('/', async function(req, res, next) {
         filtro.tags = tags
     }
 
-    const nodePOPs = await nodePOP.lista(filtro, limit, skip, fields, sort);
-    const total = await nodePOP.listaCount(filtro);
+    const nodePOPs = await NodePOP.lista(filtro, limit, skip, fields, sort);
+    const total = await NodePOP.listaCount(filtro);
 
     if (!limit) {limit=total}
     
-    const tagsmodel = await tag.find();
+    const tagsmodel = await Tag.find();
     res.render('index', {title: 'NodePOP', nodePOPs: nodePOPs, tags: tagsmodel, total: total, limit: limit});
       
   } catch (err) {

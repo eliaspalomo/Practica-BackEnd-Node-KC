@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 const NodePOP = require('../../models/NodePOP');
+const Tag = require('../../models/Tag');
 
 /* GET /api/nodePOP */
 router.get('/', async function(req, res, next) {
@@ -67,6 +68,9 @@ router.post('/', async(req, res, next) => {
         const nodePOP = new NodePOP(nodePOPData);
 
         const nodePOPCreado = await nodePOP.save();
+        
+        //Añado los tags si fuera necesario
+        Tag.addTags(req.body.tags);
 
         res.status(201).json({nodePOPCreado});
     } catch (error) {
@@ -84,6 +88,9 @@ router.put('/:id', async (req, res, next) => {
             new: true,
             useFindAndModify: false
         }); 
+
+        //Añado los tags si fuera necesario
+        await Tag.addTags(req.body.tags);
 
         res.json({result: nodePOPActualizado});
     } catch (error) {
